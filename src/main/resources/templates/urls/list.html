@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>List of Urls</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
+    <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
+    <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
+    <script type="text/javascript" src="/js/urls.list.js"></script>
+    <script type="text/javascript" src="/js/utility.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <th:block th:replace="urls/_listCreate"></th:block>
+    </div>
+
+    <div class="container">
+      <hr>
+      <th:block th:replace="urls/_listPaging"></th:block>
+      <div class="row mt-3">
+        <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
+          <div class="d-block bg-light">
+            <div class="overflow-hidden">
+              <a th:href="${url.address}">
+                <button type="button" class="btn btn-outline-primary btn-block" th:text="${url.address}"></button>
+              </a>
+            </div>
+
+            <div class="small" style="width:100%; overflow: hidden" th:text="${url.description}">
+            </div>
+
+            <div class="col-auto badge badge-pill badge-secondary" th:each="tag : ${url.tags}" th:text="${tag.title}">
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <form th:action="@{/urls/delete/{urlId}(urlId=${url.id})}" th:method="delete">
+                  <input class="btn btn-danger btn-sm" type="submit" onclick="return ConfirmDelete();" value="delete" />
+                </form>
+              </div>
+            </div>
+
+          </div>
+          <br />
+        </div>
+      </div>
+      <th:block th:replace="urls/_listPaging"></th:block>
+    </div>
+  </body>
+</html>
