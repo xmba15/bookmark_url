@@ -15,7 +15,7 @@
   <description>Storing Web URL for browsing later</description>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>8</java.version>
   </properties>
 
   <dependencies>
@@ -45,6 +45,12 @@
     <dependency>
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
   </dependencies>
