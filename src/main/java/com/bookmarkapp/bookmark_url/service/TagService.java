@@ -17,7 +17,7 @@ public class TagService {
     TagRepository tagRepository;
 
     public List<Tag> findAll() {
-        return tagRepository.findAllOrderByTitle();
+        return tagRepository.findAllOrderById();
     }
 
     public Optional<Tag> findOne(Integer id) {

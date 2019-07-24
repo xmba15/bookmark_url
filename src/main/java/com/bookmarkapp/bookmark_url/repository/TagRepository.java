@@ -11,6 +11,6 @@ import java.util.List;
 @Transactional
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
-    @Query("SELECT x FROM Tag x ORDER BY x.title")
-    List<Tag> findAllOrderByTitle();
+    @Query("SELECT x FROM Tag x ORDER BY x.id")
+    List<Tag> findAllOrderById();
 }

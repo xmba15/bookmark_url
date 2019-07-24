@@ -23,4 +23,8 @@ public class UrlService {
     public Optional<Url> findOne(Long id) {
         return urlRepository.findById(id);
     }
+
+    public Url create(Url url) {
+        return urlRepository.save(url);
+    }
 }

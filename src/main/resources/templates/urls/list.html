@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>List of Urls</title>
+  </head>
+
+  
+
+  <body>
+    <table>
+      <tr th:each="url : ${urls}">
+        <td th:text="${url.address}"></td>
+        <td th:text="${url.description}"></td>
+      </tr>
+    </table>
+  </body>
+</html>
