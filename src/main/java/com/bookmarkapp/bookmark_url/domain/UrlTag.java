@@ -13,7 +13,7 @@ import javax.persistence.*;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-class UrlTag {
+public class UrlTag {
     @Id
     @GeneratedValue
     private Long id;
