@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Transactional
 @Service
@@ -23,4 +24,13 @@ public class TagService {
     public Optional<Tag> findOne(Integer id) {
         return tagRepository.findById(id);
     }
+
+    public Set<Tag> findTagsByIds(Integer[] ids) {
+        return tagRepository.findTagByIds(ids);
+    }
+
+    public Optional<Tag> findOneByTitle(String title) {
+        return tagRepository.findOneByTitle(title);
+    }
+
 }

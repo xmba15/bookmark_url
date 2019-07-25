@@ -7,10 +7,21 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Transactional
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     @Query("SELECT x FROM Tag x ORDER BY x.id")
     List<Tag> findAllOrderById();
+
+    @Query("SELECT x.title FROM Tag x ORDER BY x.id")
+    List<String> findAllTitlesOrderById();
+
+    @Query("SELECT x FROM Tag x WHERE x.id IN :ids")
+    Set<Tag> findTagByIds(Integer[] ids);
+
+    @Query("SELECT x FROM Tag x WHERE x.title = :title")
+    Optional<Tag> findOneByTitle(String title);
 }
