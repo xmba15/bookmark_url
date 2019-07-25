@@ -27,4 +27,8 @@ public class UrlService {
     public Url create(Url url) {
         return urlRepository.save(url);
     }
+
+    public Optional<Url> findOneByAddress(String address) {
+        return urlRepository.findOneByAddress(address);
+    }
 }
