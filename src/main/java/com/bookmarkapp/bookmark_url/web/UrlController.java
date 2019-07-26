@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -53,31 +54,43 @@ public class UrlController {
             return list(model);
         }
 
-        Set<Tag> checkedTags = tagService.findTagsByIds(form.getTagIds());
-        if (checkedTags.isEmpty()) {
-            Tag tag = tagService.findOneByTitle(OTHER_TAG).get();
-            checkedTags.add(tag);
+        try {
+            Set<Tag> checkedTags;
+            if (form.getTagIds().length != 0) {
+                checkedTags = tagService.findTagsByIds(form.getTagIds());
+            } else {
+                checkedTags = new HashSet<>();
+            }
+
+            if (checkedTags.isEmpty()) {
+                Tag tag = tagService.findOneByTitle(OTHER_TAG).get();
+                checkedTags.add(tag);
+            }
+
+            Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
+
+            Url urlToSave;
+
+            if (duplicateUrl.isPresent()) {
+                urlToSave = duplicateUrl.get();
+            } else {
+                urlToSave = new Url();
+                urlToSave.setAddress(form.getAddress());
+            }
+
+            if (!form.getDescription().isEmpty()) {
+                urlToSave.setDescription(form.getDescription());
+            }
+
+            urlToSave.setTags(checkedTags);
+
+            urlService.create(urlToSave);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return list(model);
         }
-
-        Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
-
-        Url urlToSave;
-
-        if (duplicateUrl.isPresent()) {
-            urlToSave = duplicateUrl.get();
-        } else {
-            urlToSave = new Url();
-            urlToSave.setAddress(form.getAddress());
-        }
-
-        if (!form.getDescription().isEmpty()) {
-            urlToSave.setDescription(form.getDescription());
-        }
-
-        urlToSave.setTags(checkedTags);
-
-        urlService.create(urlToSave);
 
         return "redirect:/urls";
+
     }
 }

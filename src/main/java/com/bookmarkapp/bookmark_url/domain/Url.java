@@ -1,5 +1,6 @@
 package com.bookmarkapp.bookmark_url.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,7 +21,7 @@ import java.util.Set;
 @Setter
 public class Url {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false, name = "address")
@@ -43,4 +44,11 @@ public class Url {
         joinColumns = @JoinColumn(name = "url_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
+
+    @ManyToMany
+    @JoinTable(
+        name="url_subtag",
+        joinColumns = @JoinColumn(name = "url_id"),
+        inverseJoinColumns = @JoinColumn(name = "subtag_id"))
+    private Set<SubTag> subtags;
 }
