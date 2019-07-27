@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tag Info</title>
+  </head>
+  <body>
+    <span th:text="${targetTag.title}"></span>
+
+    <hr>
+
+    <div th:unless="${#lists.isEmpty(targetSubtags)}">
+      List of Subtags:
+      <br />
+      <tr th:each="subtag : ${targetSubtags}">
+          <th th:text="${subtag.title}"></th>
+        </tr>
+    </div>
+
+    <a th:href="@{/tags}">Back</a>
+  </body>
+</html>

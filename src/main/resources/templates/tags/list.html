@@ -3,14 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <title>List of Tags</title>
+    <link rel="stylesheet" href="/css/tags.css"></link>
   </head>
 
   <body>
-    <table>
-      <tr th:each="tag : ${tags}">
-        <td th:text="${tag.id}"></td>
-        <td th:text="${tag.title}"></td>
-      </tr>
-    </table>
+      <table class="tag-table">
+        <tr th:each="tag : ${tags}">
+          <th class="tag-table-colum" th:text="${tag.title}">
+          </th>
+          <!-- <a th:href="@{'/tags/' + ${tag.id}}"> -->
+          <!-- </a> -->
+        </tr>
+      </table>
+
+      <a th:href="@{/urls}">Back To Urls</a>
   </body>
 </html>
