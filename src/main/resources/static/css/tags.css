@@ -1,7 +1,16 @@
-.tag-table {
-  border: 1px solid black;
+#tag-table table, th, td {
+    border: solid black;
 }
 
-.tag-table-column {
-  border: 1px solid black;
+#tag-table table {
+  table-layout: fixed;
+}
+
+#tag-table th, td {
+    width: 100px;
+    overflow: hidden;
+}
+
+#tag-table td {
+    text-align: left
 }

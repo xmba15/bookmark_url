@@ -7,15 +7,29 @@
   </head>
 
   <body>
-      <table class="tag-table">
-        <tr th:each="tag : ${tags}">
-          <th class="tag-table-colum" th:text="${tag.title}">
+    <div class="tag-table">
+    <table>
+        <tr>
+          <th th:each="tag : ${tags}">
+            <a th:href="@{'/tags/' + ${tag.id}}" th:text="${tag.title}">
+            </a>
           </th>
-          <!-- <a th:href="@{'/tags/' + ${tag.id}}"> -->
-          <!-- </a> -->
         </tr>
-      </table>
 
-      <a th:href="@{/urls}">Back To Urls</a>
+        <tr>
+          <td th:each="tag : ${tags}">
+            <th:block>
+            <ul style="list-style: none;">
+              <li th:each="subtag : ${tag.subtags}" th:text="${subtag.title}"></li>
+            </ul>
+            <th:block>
+          </td>
+        </tr>
+    </table>
+    </div> <!-- class="tag-table" -->
+
+    <!-- <a th:href="@{'/tags/' + ${tag.id}}"> -->
+    <!-- </a> -->
+    <a th:href="@{/urls}">Back To Urls</a>
   </body>
 </html>
