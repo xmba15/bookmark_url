@@ -3,47 +3,85 @@
   <head>
     <meta charset="UTF-8" />
     <title>List of Urls</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
+    <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
+    <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
   </head>
+  <body>
 
-  <form method="post" th:action="@{/urls/create}" th:object="${urlForm}">
-    <div class="form-group">
-      <dl>
-        <dt><label for="address">address</label></dt>
-        <dd>
-          <input type="text" id="address" name="address" th:field="*{address}" th:errorclass="error-input" />
-          <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-messages">error!</span>
-        </dd>
+    <div class="container">
+      <div class="col-sm-12">
 
-        <dt><label for="description">description</label></dt>
-        <dd>
-          <input type="text" id="description" name="description" th:field="*{description}" th:errorclass="error-input" />
-          <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-messages">error!</span>
-        </dd>
-      </dl>
-    </div>
+        <form method="post" th:action="@{/urls/create}" th:object="${urlForm}" id="urlForm">
+          <fieldset class="border p-2">
+            <legend class="w-auto text-uppercase">
+              Add New Url
+            </legend>
 
-    <div class="form-group">
-      <div class="checkbox" th:each="tag : ${tags}">
-        <label>
-          <input type="checkbox" name="tagIds" th:value="${tag.id}" th:text="${tag.title}" th:field="*{tagIds}"></input>
-          <span th:if="${#fields.hasErrors('tagIds')}" th:errors="*{tagIds}" class="error-messages">error!</span>
-        </label>
+            <div class="form-row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-control-label" for="address">
+                  address
+                </label>
+
+                <input type="text" class="form-control" id="description" th:classappend="${not #lists.isEmpty(#fields.errors('address'))} ? is-invalid" name="description" th:field="*{address}" />
+                <div class="invalid-feedback">
+                  <p th:each="error: ${#fields.errors('address')}" th:text="${error}"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-control-label" for="description">
+                  description
+                </label>
+
+                <input type="text" class="form-control" id="description" th:classappend="${not #lists.isEmpty(#fields.errors('description'))} ? is-invalid" name="description" th:field="*{description}" />
+                <div class="invalid-feedback">
+                  <p th:each="error: ${#fields.errors('description')}" th:text="${error}"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-check" th:each="tag : ${tags}">
+                  <input type="checkbox" class="form-check-input" name="tagIds" th:value="${tag.id}" th:text="${tag.title}" th:field="*{tagIds}"></input>
+                </div>
+              </div>
+              <div class="col">
+                <a th:href="@{/tags}">
+                  <button type="button"  class="btn btn-outline-info">Tag Info</button>
+                </a>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btnSubmit">Create</button>
+          </fieldset>
+        </form>
       </div>
     </div>
 
-    <br/>
-    <input type="submit" value="create"/>
-  </form>
+    <div class="container">
+      <hr>
 
-  <a th:href="@{/tags}">Tag Info</a>
-  <hr>
+      <div class="row">
+        <div class="col">
+          address
+        </div>
+        <div class="col">
+          description
+        </div>
+      </div>
+      <div class="row" th:each="url : ${urls}">
+        <div class="col" th:text="${url.address}">
+        </div>
+        <div class="col" th:text="${url.description}">
+        </div>
+      </div>
 
-  <body>
-    <table>
-      <tr th:each="url : ${urls}">
-        <td th:text="${url.address}"></td>
-        <td th:text="${url.description}"></td>
-      </tr>
-    </table>
+    </div>
+
   </body>
 </html>

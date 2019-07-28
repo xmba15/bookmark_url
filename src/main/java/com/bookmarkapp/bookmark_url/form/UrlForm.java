@@ -8,11 +8,11 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UrlForm {
-    @NotBlank(message = "Necessary information")
-    @URL
+    @NotBlank(message = "Not empty")
+    @URL(message = "Invalid url")
     private String address;
 
-    @Size(max = 500)
+    @Size(max = 500, message= "Description too long")
     private String description;
 
     private Integer[] tagIds;

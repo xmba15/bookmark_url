@@ -87,7 +87,7 @@ public class UrlController {
             urlService.create(urlToSave);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return list(model);
+            return "redirect:/urls";
         }
 
         return "redirect:/urls";

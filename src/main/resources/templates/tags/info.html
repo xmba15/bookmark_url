@@ -3,20 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <title>Tag Info</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
+    <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
+    <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
   </head>
+
   <body>
-    <span th:text="${targetTag.title}"></span>
+    <div class="container">
 
-    <hr>
+      <span class="badge badge-pill badge-info" th:text="${targetTag.title}"></span>
 
-    <div th:unless="${#lists.isEmpty(targetSubtags)}">
-      List of Subtags:
-      <br />
-      <tr th:each="subtag : ${targetSubtags}">
-          <th th:text="${subtag.title}"></th>
-        </tr>
+      <div class="col" th:each="subtag : ${targetSubtags}" th:text="${subtag.title}">
+      </div>
+
     </div>
 
-    <a th:href="@{/tags}">Back</a>
+    <div class="container">
+      <hr>
+
+      <a th:href="@{/tags}">
+        <button type="button"  class="btn btn-outline-info">Tag Info</button>
+      </a>
+    </div>
+
   </body>
 </html>

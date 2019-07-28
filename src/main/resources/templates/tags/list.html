@@ -3,33 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <title>List of Tags</title>
-    <link rel="stylesheet" href="/css/tags.css"></link>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
+    <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
+    <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
   </head>
 
   <body>
-    <div class="tag-table">
-    <table>
-        <tr>
-          <th th:each="tag : ${tags}">
-            <a th:href="@{'/tags/' + ${tag.id}}" th:text="${tag.title}">
-            </a>
-          </th>
-        </tr>
+    <div class="container">
+      <div class="row">
+        <div class="col" th:each="tag : ${tags}">
+          <a th:href="@{'/tags/' + ${tag.id}}" class="badge badge-info" th:text="${tag.title}"></a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" th:each="tag : ${tags}">
+          <div class="row" th:each="subtag : ${tag.subtags}" th:text="${subtag.title}">
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <tr>
-          <td th:each="tag : ${tags}">
-            <th:block>
-            <ul style="list-style: none;">
-              <li th:each="subtag : ${tag.subtags}" th:text="${subtag.title}"></li>
-            </ul>
-            <th:block>
-          </td>
-        </tr>
-    </table>
-    </div> <!-- class="tag-table" -->
+    <div class="container">
+      <hr>
 
-    <!-- <a th:href="@{'/tags/' + ${tag.id}}"> -->
-    <!-- </a> -->
-    <a th:href="@{/urls}">Back To Urls</a>
+      <a th:href="@{/urls}">
+        <button type="button"  class="btn btn-outline-info">Url Info</button>
+      </a>
+    </div>
+
   </body>
 </html>
