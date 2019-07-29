@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS url_tag(
        PRIMARY KEY(id),
        FOREIGN KEY(tag_id) REFERENCES tags(id),
        FOREIGN KEY(url_id) REFERENCES urls(id),
-       UNIQUE (url_id)
+       UNIQUE (url_id, tag_id)
 );
 
 CREATE TABLE IF NOT EXISTS tag_subtag(

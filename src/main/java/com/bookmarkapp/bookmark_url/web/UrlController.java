@@ -2,9 +2,11 @@ package com.bookmarkapp.bookmark_url.web;
 
 import com.bookmarkapp.bookmark_url.domain.Tag;
 import com.bookmarkapp.bookmark_url.domain.Url;
+import com.bookmarkapp.bookmark_url.domain.UrlTag;
 import com.bookmarkapp.bookmark_url.form.UrlForm;
 import com.bookmarkapp.bookmark_url.service.TagService;
 import com.bookmarkapp.bookmark_url.service.UrlService;
+import com.bookmarkapp.bookmark_url.service.UrlTagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,9 @@ public class UrlController {
 
     @Autowired
     TagService tagService;
+
+    @Autowired
+    UrlTagService urlTagService;
 
     @ModelAttribute
     UrlForm setUpForm() {
@@ -62,29 +67,35 @@ public class UrlController {
                 checkedTags = new HashSet<>();
             }
 
-            if (checkedTags.isEmpty()) {
-                Tag tag = tagService.findOneByTitle(OTHER_TAG).get();
-                checkedTags.add(tag);
-            }
-
-            Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
-
             Url urlToSave;
-
+            Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
             if (duplicateUrl.isPresent()) {
                 urlToSave = duplicateUrl.get();
+                Set<Tag> currentTags = urlToSave.getTags();
+                Set<Tag> intersectTag = new HashSet<>(checkedTags);
+                intersectTag.retainAll(currentTags);
+
+                currentTags.removeAll(intersectTag);
+                for (Tag currentTag : currentTags) {
+                    UrlTag urlTagToDel = urlTagService.findOneByUrlIdTagId(urlToSave.getId(), currentTag.getId()).get();
+                    urlTagService.delete(urlTagToDel);
+                }
+                checkedTags.removeAll(intersectTag);
             } else {
                 urlToSave = new Url();
                 urlToSave.setAddress(form.getAddress());
             }
 
-            if (!form.getDescription().isEmpty()) {
-                urlToSave.setDescription(form.getDescription());
+            for (Tag checkedTag: checkedTags) {
+                UrlTag urlTag = new UrlTag();
+                urlTag.setTag(checkedTag);
+                urlTag.setUrl(urlToSave);
+                urlTagService.create(urlTag);
             }
 
-            urlToSave.setTags(checkedTags);
-
+            urlToSave.setDescription(form.getDescription());
             urlService.create(urlToSave);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return "redirect:/urls";

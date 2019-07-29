@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,7 +22,7 @@ import java.util.Set;
 @Setter
 public class Url {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, name = "address")
@@ -38,17 +39,25 @@ public class Url {
     @Column(name = "updated_on")
     private LocalDateTime updatedOn;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(
         name="url_tag",
-        joinColumns = @JoinColumn(name = "url_id"),
-        inverseJoinColumns = @JoinColumn(name = "tag_id"))
+        joinColumns = {@JoinColumn(name = "url_id")},
+        inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(
         name="url_subtag",
-        joinColumns = @JoinColumn(name = "url_id"),
-        inverseJoinColumns = @JoinColumn(name = "subtag_id"))
+        joinColumns = {@JoinColumn(name = "url_id")},
+        inverseJoinColumns = {@JoinColumn(name = "subtag_id")})
     private Set<SubTag> subtags;
 }
