@@ -39,6 +39,10 @@ public class Url {
     @Column(name = "updated_on")
     private LocalDateTime updatedOn;
 
+    public Url(String address) {
+        this.address = address;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,

@@ -60,40 +60,18 @@ public class UrlController {
         }
 
         try {
-            Set<Tag> checkedTags;
-            if (form.getTagIds().length != 0) {
-                checkedTags = tagService.findTagsByIds(form.getTagIds());
-            } else {
-                checkedTags = new HashSet<>();
-            }
+            Set<Tag> checkedTags = (form.getTagIds().length != 0) ? tagService.findTagsByIds(form.getTagIds()) : new HashSet<>();
 
-            Url urlToSave;
             Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
-            if (duplicateUrl.isPresent()) {
-                urlToSave = duplicateUrl.get();
-                Set<Tag> currentTags = urlToSave.getTags();
-                Set<Tag> intersectTag = new HashSet<>(checkedTags);
-                intersectTag.retainAll(currentTags);
+            Url urlToSave = duplicateUrl.isPresent() ? duplicateUrl.get() : new Url(form.getAddress());
 
-                currentTags.removeAll(intersectTag);
-                for (Tag currentTag : currentTags) {
-                    UrlTag urlTagToDel = urlTagService.findOneByUrlIdTagId(urlToSave.getId(), currentTag.getId()).get();
-                    urlTagService.delete(urlTagToDel);
-                }
-                checkedTags.removeAll(intersectTag);
-            } else {
-                urlToSave = new Url();
-                urlToSave.setAddress(form.getAddress());
+            if (form.getDescription() != null) {
+                urlToSave.setDescription(form.getDescription());
             }
 
-            for (Tag checkedTag: checkedTags) {
-                UrlTag urlTag = new UrlTag();
-                urlTag.setTag(checkedTag);
-                urlTag.setUrl(urlToSave);
-                urlTagService.create(urlTag);
+            if (!checkedTags.equals(urlToSave.getTags())) {
+                urlToSave.setTags(checkedTags);
             }
-
-            urlToSave.setDescription(form.getDescription());
             urlService.create(urlToSave);
 
         } catch (Exception e) {

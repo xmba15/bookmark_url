@@ -21,7 +21,7 @@ public class UrlSubTag {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "subtag_id")
-    private SubTag subtag;
+    private SubTag subTag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "url_id")
