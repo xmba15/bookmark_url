@@ -44,6 +44,10 @@
               </div>
             </div>
 
+            <div class="small badge badge-pill badge-info">
+              Choose tags:
+            </div>
+
             <div class="row">
               <div class="col">
                 <div class="form-check" th:each="tag : ${tags}">
@@ -67,17 +71,25 @@
       <hr>
 
       <div class="row">
-        <div class="col">
-          address
-        </div>
-        <div class="col">
-          description
-        </div>
-      </div>
-      <div class="row" th:each="url : ${urls}">
-        <div class="col" th:text="${url.address}">
-        </div>
-        <div class="col" th:text="${url.description}">
+          <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
+            <div class="d-block bg-light">
+              <div>
+                <a th:href="${url.address}" style="width:100%; overflow: hidden">
+                  <button type="button" class="btn btn-outline-primary" th:text="${url.address}"></button>
+                </a>
+              </div>
+
+              <div class="small" style="width:100%; overflow: hidden" th:text="${url.description}">
+              </div>
+
+              <div th:each="tag : ${url.tags}">
+                <div class="badge badge-pill badge-secondary" th:text="${tag.title}">
+                </div>
+              </div>
+
+            </div>
+            <br />
+          </div>
         </div>
       </div>
 
