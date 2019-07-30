@@ -31,3 +31,15 @@ mysql> grant all on url_bookmarks.* to 'meuser'@'%';
 ```bash
 ./mvnw spring-boot:run
 ```
+
+- Packaging
+```bash
+# clean package
+./mvnw clean package
+
+# create package
+./mvnw package
+
+# run package
+java -jar ./target/*.jar
+```

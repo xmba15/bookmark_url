@@ -64,6 +64,7 @@ INSERT INTO tags(title) VALUES ('papers');
 INSERT INTO tags(title) VALUES ('news');
 INSERT INTO tags(title) VALUES ('entertainment');
 INSERT INTO tags(title) VALUES ('books');
+INSERT INTO tags(title) VALUES ('software library');
 INSERT INTO tags(title) VALUES ('miscellaneous');
 
 INSERT INTO subtags(title) VALUES('computer vision');
