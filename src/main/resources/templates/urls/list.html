@@ -73,19 +73,17 @@
       <div class="row">
           <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
             <div class="d-block bg-light">
-              <div>
-                <a th:href="${url.address}" style="width:100%; overflow: hidden">
-                  <button type="button" class="btn btn-outline-primary" th:text="${url.address}"></button>
+              <div class="overflow-hidden">
+                <a th:href="${url.address}">
+                  <button type="button" class="btn btn-outline-primary btn-block" th:text="${url.address}"></button>
                 </a>
               </div>
 
               <div class="small" style="width:100%; overflow: hidden" th:text="${url.description}">
               </div>
 
-              <div th:each="tag : ${url.tags}">
-                <div class="badge badge-pill badge-secondary" th:text="${tag.title}">
+                <div class="col-auto badge badge-pill badge-secondary" th:each="tag : ${url.tags}" th:text="${tag.title}">
                 </div>
-              </div>
 
             </div>
             <br />
