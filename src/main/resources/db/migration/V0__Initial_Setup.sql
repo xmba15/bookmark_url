@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS url_subtag(
 
 INSERT INTO tags(title) VALUES ('science');
 INSERT INTO tags(title) VALUES ('technology');
+INSERT INTO tags(title) VALUES ('papers');
 INSERT INTO tags(title) VALUES ('news');
 INSERT INTO tags(title) VALUES ('entertainment');
 INSERT INTO tags(title) VALUES ('books');
@@ -86,6 +87,3 @@ INSERT INTO tag_subtag(tag_id, subtag_id) VALUES((SELECT id from tags WHERE titl
 INSERT INTO tag_subtag(tag_id, subtag_id) VALUES((SELECT id from tags WHERE title = 'entertainment'), (SELECT id from subtags WHERE title ='music'));
 INSERT INTO tag_subtag(tag_id, subtag_id) VALUES((SELECT id from tags WHERE title = 'entertainment'), (SELECT id from subtags WHERE title ='films'));
 INSERT INTO tag_subtag(tag_id, subtag_id) VALUES((SELECT id from tags WHERE title = 'entertainment'), (SELECT id from subtags WHERE title ='camera'));
-
-INSERT INTO urls(address) VALUES ('http://google.com');
-INSERT INTO url_tag(url_id, tag_id) VALUES((SELECT id from urls WHERE address = 'http://google.com'), (SELECT id from tags WHERE title = 'technology'));
