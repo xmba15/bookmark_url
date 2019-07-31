@@ -13,7 +13,15 @@
 
       <span class="badge badge-pill badge-info" th:text="${targetTag.title}"></span>
 
-      <div class="col" th:each="subtag : ${targetSubtags}" th:text="${subtag.title}">
+      <div class="row mb-3" th:each="subTag : ${targetSubtags}">
+        <div class="col-3" th:text="${subTag.title}">
+        </div>
+
+        <div class="col text-left">
+          <form th:action="@{/subtags/delete/{subTagId}(subTagId=${subTag.id})}" th:method="delete">
+            <input class="btn btn-danger btn-sm" type="submit" value="delete" />
+          </form>
+        </div>
       </div>
 
     </div>

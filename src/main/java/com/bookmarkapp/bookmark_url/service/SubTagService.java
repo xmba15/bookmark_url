@@ -22,4 +22,16 @@ public class SubTagService {
     public Optional<SubTag> findOne(Integer id) {
         return subTagRepository.findById(id);
     }
+
+    public SubTag save(SubTag subTag) {
+        return subTagRepository.save(subTag);
+    }
+
+    public void delete(SubTag subTag) {
+        subTagRepository.delete(subTag);
+    }
+
+    public void delete(Integer id) {
+        subTagRepository.deleteById(id);
+    }
 }

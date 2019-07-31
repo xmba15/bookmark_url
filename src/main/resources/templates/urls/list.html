@@ -48,8 +48,8 @@
               Choose tags:
             </div>
 
-            <div class="row">
-              <div class="col">
+            <div class="row mt-3 mb-3">
+              <div class="col-3">
                 <div class="form-check" th:each="tag : ${tags}">
                   <input type="checkbox" class="form-check-input" name="tagIds" th:value="${tag.id}" th:text="${tag.title}" th:field="*{tagIds}"></input>
                 </div>
@@ -70,7 +70,7 @@
     <div class="container">
       <hr>
 
-      <div class="row">
+      <div class="row mt-3">
           <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
             <div class="d-block bg-light">
               <div>

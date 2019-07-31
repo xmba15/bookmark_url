@@ -5,9 +5,7 @@ import com.bookmarkapp.bookmark_url.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +16,7 @@ public class TagController {
     @Autowired
     TagService tagService;
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     String list(Model model) {
         List<Tag> tags = tagService.findAll();
         model.addAttribute("tags", tags);
@@ -26,7 +24,7 @@ public class TagController {
         return "tags/list";
     }
 
-    @GetMapping(path = "{id}")
+    @RequestMapping(path = "{id}", method = RequestMethod.GET)
     String getTag(@PathVariable Integer id, Model model) {
         Optional<Tag> tag = tagService.findOne(id);
         if (tag.isPresent()) {
@@ -36,5 +34,11 @@ public class TagController {
         } else {
             return "redirect:/tags";
         }
+    }
+
+    @RequestMapping(path= "{id}", method = RequestMethod.DELETE)
+    String deleteTag(@PathVariable Integer id) {
+        tagService.delete(id);
+        return "redirect:/tags";
     }
 }
