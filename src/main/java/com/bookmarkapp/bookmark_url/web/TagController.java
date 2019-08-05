@@ -9,6 +9,7 @@ import com.bookmarkapp.bookmark_url.form.UrlForm;
 import com.bookmarkapp.bookmark_url.service.SubTagService;
 import com.bookmarkapp.bookmark_url.service.TagService;
 import com.bookmarkapp.bookmark_url.service.TagSubTagService;
+import com.bookmarkapp.bookmark_url.service.UrlTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,9 @@ public class TagController {
 
     @Autowired
     TagSubTagService tagSubTagService;
+
+    @Autowired
+    UrlTagService urlTagService;
 
     @ModelAttribute("tagForm")
     TagForm setUpTagForm() {
@@ -61,9 +65,12 @@ public class TagController {
         }
     }
 
-    @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    String deleteTag(@PathVariable Integer id) {
-        tagService.delete(id);
+    @RequestMapping(path = "/delete/{tagId}", method = RequestMethod.DELETE)
+    String deleteTag(@PathVariable Integer tagId) {
+        tagSubTagService.deleteAllSubTagsByTagId(tagId);
+        urlTagService.deleteAllByTagId(tagId);
+        tagService.delete(tagId);
+
         return "redirect:/tags";
     }
 

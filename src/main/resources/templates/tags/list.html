@@ -61,6 +61,14 @@
 
       <div class="row mt-3 mb-3">
         <div class="col" th:each="tag : ${tags}">
+          <form th:action="@{/tags/delete/{tagId}(tagId=${tag.id})}" th:method="delete">
+            <input class="btn btn-danger btn-sm" type="submit" value="delete" />
+          </form>
+        </div>
+      </div>
+
+      <div class="row mt-3 mb-3">
+        <div class="col" th:each="tag : ${tags}">
           <div class="row" th:each="subtag : ${tag.subtags}" th:text="${subtag.title}">
           </div>
         </div>

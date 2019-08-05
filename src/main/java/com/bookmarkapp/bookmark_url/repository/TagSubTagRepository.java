@@ -1,5 +1,6 @@
 package com.bookmarkapp.bookmark_url.repository;
 
+import com.bookmarkapp.bookmark_url.domain.SubTag;
 import com.bookmarkapp.bookmark_url.domain.Tag;
 import com.bookmarkapp.bookmark_url.domain.TagSubTag;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -21,4 +23,7 @@ public interface TagSubTagRepository extends JpaRepository<TagSubTag, Integer> {
 
     @Query("SELECT x from TagSubTag x WHERE x.tag.id = :tagId AND x.subTag.title = :subTagTitle")
     Optional<TagSubTag> findOneByTagIdSubTagTitle(@Param("tagId") Integer tagId, @Param("subTagTitle") String subTagTitle);
+
+    @Query("SELECT x from TagSubTag x WHERE x.tag.id = :tagId")
+    List<TagSubTag> findAllTagSubTagsByTagId(@Param("tagId") Integer tagId);
 }

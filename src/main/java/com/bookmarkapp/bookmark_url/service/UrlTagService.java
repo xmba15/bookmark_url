@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -24,5 +25,12 @@ public class UrlTagService {
 
     public void delete(UrlTag urlTag) {
         urlTagRepository.delete(urlTag);
+    }
+
+    public void deleteAllByTagId(Integer tagId) {
+        List<UrlTag> urlTags = urlTagRepository.findAllByTagId(tagId);
+        for (UrlTag urlTag : urlTags) {
+            urlTagRepository.delete(urlTag);
+        }
     }
 }
