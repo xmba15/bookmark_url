@@ -6,10 +6,7 @@ import com.bookmarkapp.bookmark_url.domain.TagSubTag;
 import com.bookmarkapp.bookmark_url.form.SubTagForm;
 import com.bookmarkapp.bookmark_url.form.TagForm;
 import com.bookmarkapp.bookmark_url.form.UrlForm;
-import com.bookmarkapp.bookmark_url.service.SubTagService;
-import com.bookmarkapp.bookmark_url.service.TagService;
-import com.bookmarkapp.bookmark_url.service.TagSubTagService;
-import com.bookmarkapp.bookmark_url.service.UrlTagService;
+import com.bookmarkapp.bookmark_url.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +32,9 @@ public class TagController {
     @Autowired
     UrlTagService urlTagService;
 
+    @Autowired
+    UrlSubTagService urlSubTagService;
+
     @ModelAttribute("tagForm")
     TagForm setUpTagForm() {
         return new TagForm();
@@ -53,9 +53,9 @@ public class TagController {
         return "tags/list";
     }
 
-    @RequestMapping(path = "{id}", method = RequestMethod.GET)
-    String getTag(@PathVariable Integer id, Model model) {
-        Optional<Tag> tag = tagService.findOne(id);
+    @RequestMapping(path = "{tagId}", method = RequestMethod.GET)
+    String getTag(@PathVariable Integer tagId, Model model) {
+        Optional<Tag> tag = tagService.findOne(tagId);
         if (tag.isPresent()) {
             model.addAttribute("targetTag", tag.get());
             model.addAttribute("targetSubtags", tag.get().getSubtags());
@@ -67,7 +67,16 @@ public class TagController {
 
     @RequestMapping(path = "/delete/{tagId}", method = RequestMethod.DELETE)
     String deleteTag(@PathVariable Integer tagId) {
+        Optional<Tag> tag = tagService.findOne(tagId);
+        if (!tag.isPresent()) {
+            return "redirect:/tags";
+        }
+
         tagSubTagService.deleteAllSubTagsByTagId(tagId);
+        for (SubTag subTag : tag.get().getSubtags()) {
+            urlSubTagService.deleteAllBySubTagId(subTag.getId());
+        }
+
         urlTagService.deleteAllByTagId(tagId);
         tagService.delete(tagId);
 
