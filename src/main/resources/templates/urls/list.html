@@ -24,7 +24,7 @@
                   address
                 </label>
 
-                <input type="text" class="form-control" id="description" th:classappend="${not #lists.isEmpty(#fields.errors('address'))} ? is-invalid" name="description" th:field="*{address}" />
+                <input type="text" class="form-control" id="address" th:classappend="${not #lists.isEmpty(#fields.errors('address'))} ? is-invalid" name="address" th:field="*{address}" />
                 <div class="invalid-feedback">
                   <p th:each="error: ${#fields.errors('address')}" th:text="${error}"></p>
                 </div>

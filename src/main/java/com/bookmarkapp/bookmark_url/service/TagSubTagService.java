@@ -30,4 +30,12 @@ public class TagSubTagService {
     public void delete(Integer id) {
         tagSubTagRepository.deleteById(id);
     }
+
+    public TagSubTag save(TagSubTag tagSubTag) {
+        return tagSubTagRepository.save(tagSubTag);
+    }
+
+    public Optional<TagSubTag> findOneByTagIdSubTagTitle(Integer tagId, String subTagTitle) {
+        return tagSubTagRepository.findOneByTagIdSubTagTitle(tagId, subTagTitle);
+    }
 }

@@ -18,4 +18,7 @@ public interface TagSubTagRepository extends JpaRepository<TagSubTag, Integer> {
 
     @Query("SELECT x from TagSubTag x WHERE x.tag.id = :tagId AND x.subTag.id = :subTagId")
     Optional<TagSubTag> findOneByTagIdSubTagId(@Param("tagId") Integer tagId, @Param("subTagId") Integer subTagId);
+
+    @Query("SELECT x from TagSubTag x WHERE x.tag.id = :tagId AND x.subTag.title = :subTagTitle")
+    Optional<TagSubTag> findOneByTagIdSubTagTitle(@Param("tagId") Integer tagId, @Param("subTagTitle") String subTagTitle);
 }
