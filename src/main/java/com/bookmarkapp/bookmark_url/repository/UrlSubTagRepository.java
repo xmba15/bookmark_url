@@ -14,4 +14,7 @@ import java.util.List;
 public interface UrlSubTagRepository extends JpaRepository<UrlSubTag, Integer> {
     @Query("SELECT x FROM UrlSubTag x WHERE x.subTag.id  = :subTagId")
     List<UrlSubTag> findAllBySubTagId(@Param("subTagId") Integer subTagId);
+
+    @Query("SELECT x FROM UrlSubTag x WHERE x.url.id = :urlId")
+    List<UrlSubTag> findAllByUrlId(@Param("urlId") Long urlId);
 }

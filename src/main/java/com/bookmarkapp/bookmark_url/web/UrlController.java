@@ -6,6 +6,7 @@ import com.bookmarkapp.bookmark_url.domain.UrlTag;
 import com.bookmarkapp.bookmark_url.form.UrlForm;
 import com.bookmarkapp.bookmark_url.service.TagService;
 import com.bookmarkapp.bookmark_url.service.UrlService;
+import com.bookmarkapp.bookmark_url.service.UrlSubTagService;
 import com.bookmarkapp.bookmark_url.service.UrlTagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class UrlController {
 
     @Autowired
     UrlTagService urlTagService;
+
+    @Autowired
+    UrlSubTagService urlSubTagService;
 
     @ModelAttribute
     UrlForm setUpForm() {
@@ -75,6 +79,20 @@ public class UrlController {
             System.out.println(e.getMessage());
             return "redirect:/urls";
         }
+
+        return "redirect:/urls";
+    }
+
+    @RequestMapping(path = "/delete/{urlId}", method = RequestMethod.DELETE)
+    String deleteUrl(@PathVariable Long urlId) {
+        Optional<Url> url = urlService.findOne(urlId);
+        if (!url.isPresent()) {
+            return "redirect:/urls";
+        }
+
+        urlTagService.deleteAllByUrlId(urlId);
+        urlSubTagService.deleteAllByUrlId(urlId);
+        urlService.delete(urlId);
 
         return "redirect:/urls";
     }

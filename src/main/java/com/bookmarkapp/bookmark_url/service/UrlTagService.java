@@ -33,4 +33,11 @@ public class UrlTagService {
             urlTagRepository.delete(urlTag);
         }
     }
+
+    public void deleteAllByUrlId(Long urlId) {
+        List<UrlTag> urlTags = urlTagRepository.findAllByUrlId(urlId);
+        for (UrlTag urlTag : urlTags) {
+            urlTagRepository.delete(urlTag);
+        }
+    }
 }

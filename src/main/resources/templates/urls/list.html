@@ -73,6 +73,7 @@
       <div class="row mt-3">
           <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
             <div class="d-block bg-light">
+
               <div class="overflow-hidden">
                 <a th:href="${url.address}">
                   <button type="button" class="btn btn-outline-primary btn-block" th:text="${url.address}"></button>
@@ -82,8 +83,14 @@
               <div class="small" style="width:100%; overflow: hidden" th:text="${url.description}">
               </div>
 
-                <div class="col-auto badge badge-pill badge-secondary" th:each="tag : ${url.tags}" th:text="${tag.title}">
-                </div>
+              <div class="col-auto badge badge-pill badge-secondary" th:each="tag : ${url.tags}" th:text="${tag.title}">
+              </div>
+
+              <div class="col">
+                <form th:action="@{/urls/delete/{urlId}(urlId=${url.id})}" th:method="delete">
+                  <input class="btn btn-danger btn-sm" type="submit" value="delete" />
+                </form>
+              </div>
 
             </div>
             <br />

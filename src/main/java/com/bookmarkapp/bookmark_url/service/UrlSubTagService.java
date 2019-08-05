@@ -29,4 +29,10 @@ public class UrlSubTagService {
         }
     }
 
+    public void deleteAllByUrlId(Long urlId) {
+        List<UrlSubTag> urlSubTags = urlSubTagRepository.findAllByUrlId(urlId);
+        for (UrlSubTag urlSubTag : urlSubTags) {
+            urlSubTagRepository.delete(urlSubTag);
+        }
+    }
 }

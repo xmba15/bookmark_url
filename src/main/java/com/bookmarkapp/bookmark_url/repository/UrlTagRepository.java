@@ -18,4 +18,7 @@ public interface UrlTagRepository extends JpaRepository<UrlTag, Integer> {
 
     @Query("SELECT x from UrlTag x WHERE x.tag.id = :tagId")
     List<UrlTag> findAllByTagId(@Param("tagId") Integer tagId);
+
+    @Query("SELECT x from UrlTag x WHERE x.url.id = :urlId")
+    List<UrlTag> findAllByUrlId(@Param("urlId") Long urlId);
 }
