@@ -13,8 +13,7 @@ import java.util.Optional;
 @Transactional
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Long> {
-    @Query("SELECT x FROM Url x ORDER BY x.id")
-    List<Url> findAllOrderById();
+    List<Url> findAllByOrderByUpdatedOnDesc();
 
     @Query("SELECT x FROM Url x WHERE x.address = :address")
     Optional<Url> findOneByAddress(@Param("address") String address);

@@ -17,7 +17,7 @@ public class UrlService {
     UrlRepository urlRepository;
 
     public List<Url> findAll() {
-        return urlRepository.findAllOrderById();
+        return urlRepository.findAllByOrderByUpdatedOnDesc();
     }
 
     public Optional<Url> findOne(Long id) {
