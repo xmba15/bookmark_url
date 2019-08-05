@@ -10,12 +10,56 @@
 
   <body>
     <div class="container">
-      <div class="row">
+      <div class="col-sm-12">
+
+        <form method="post" th:action="@{/tags/create}" th:object="${tagForm}" id="tagForm">
+          <fieldset class="border p-2">
+            <legend class="w-auto text-uppercase">
+              Add New Tag
+            </legend>
+
+            <div class="form-row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-control-label" for="title">
+                  title
+                </label>
+
+                <input type="text" class="form-control" id="title" th:classappend="${not #lists.isEmpty(#fields.errors('title'))} ? is-invalid" name="title" th:field="*{title}" />
+                <div class="invalid-feedback">
+                  <p th:each="error: ${#fields.errors('title')}" th:text="${error}"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-sm-10 mb-3">
+                <label class="form-control-label" for="description">
+                  description
+                </label>
+
+                <input type="text" class="form-control" id="description" th:classappend="${not #lists.isEmpty(#fields.errors('description'))} ? is-invalid" name="description" th:field="*{description}" />
+                <div class="invalid-feedback">
+                  <p th:each="error: ${#fields.errors('description')}" th:text="${error}"></p>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btnSubmit">Create</button>
+          </fieldset>
+        </form>
+
+      </div>
+
+    </div>
+
+    <div class="container">
+      <div class="row mt-3 mb-3">
         <div class="col" th:each="tag : ${tags}">
           <a th:href="@{'/tags/' + ${tag.id}}" class="badge badge-info" th:text="${tag.title}"></a>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row mt-3 mb-3">
         <div class="col" th:each="tag : ${tags}">
           <div class="row" th:each="subtag : ${tag.subtags}" th:text="${subtag.title}">
           </div>

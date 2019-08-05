@@ -13,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +39,7 @@ public class UrlController {
 
     final static String OTHER_TAG = "miscellaneous";
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     String list(Model model) {
         List<Url> urls = urlService.findAll();
         model.addAttribute("urls", urls);
@@ -53,7 +50,7 @@ public class UrlController {
         return "urls/list";
     }
 
-    @PostMapping(path = "create")
+    @RequestMapping(path = "create", method = RequestMethod.POST)
     String create(@Validated UrlForm form, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return list(model);
@@ -80,6 +77,5 @@ public class UrlController {
         }
 
         return "redirect:/urls";
-
     }
 }
