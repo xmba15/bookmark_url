@@ -63,5 +63,5 @@ public class Url {
         name="url_subtag",
         joinColumns = {@JoinColumn(name = "url_id")},
         inverseJoinColumns = {@JoinColumn(name = "subtag_id")})
-    private Set<SubTag> subtags;
+    private Set<SubTag> subTags;
 }

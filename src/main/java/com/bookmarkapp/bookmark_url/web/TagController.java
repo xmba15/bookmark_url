@@ -58,7 +58,7 @@ public class TagController {
         Optional<Tag> tag = tagService.findOne(tagId);
         if (tag.isPresent()) {
             model.addAttribute("targetTag", tag.get());
-            model.addAttribute("targetSubtags", tag.get().getSubtags());
+            model.addAttribute("targetSubtags", tag.get().getSubTags());
             return "tags/info";
         } else {
             return "redirect:/tags";
@@ -73,7 +73,7 @@ public class TagController {
         }
 
         tagSubTagService.deleteAllSubTagsByTagId(tagId);
-        for (SubTag subTag : tag.get().getSubtags()) {
+        for (SubTag subTag : tag.get().getSubTags()) {
             urlSubTagService.deleteAllBySubTagId(subTag.getId());
         }
 

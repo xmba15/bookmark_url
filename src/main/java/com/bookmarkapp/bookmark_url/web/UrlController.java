@@ -1,13 +1,11 @@
 package com.bookmarkapp.bookmark_url.web;
 
+import com.bookmarkapp.bookmark_url.domain.SubTag;
 import com.bookmarkapp.bookmark_url.domain.Tag;
 import com.bookmarkapp.bookmark_url.domain.Url;
 import com.bookmarkapp.bookmark_url.domain.UrlTag;
 import com.bookmarkapp.bookmark_url.form.UrlForm;
-import com.bookmarkapp.bookmark_url.service.TagService;
-import com.bookmarkapp.bookmark_url.service.UrlService;
-import com.bookmarkapp.bookmark_url.service.UrlSubTagService;
-import com.bookmarkapp.bookmark_url.service.UrlTagService;
+import com.bookmarkapp.bookmark_url.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +27,9 @@ public class UrlController {
 
     @Autowired
     TagService tagService;
+
+    @Autowired
+    SubTagService subTagService;
 
     @Autowired
     UrlTagService urlTagService;
@@ -62,6 +63,7 @@ public class UrlController {
 
         try {
             Set<Tag> checkedTags = (form.getTagIds().length != 0) ? tagService.findTagsByIds(form.getTagIds()) : new HashSet<>();
+            Set<SubTag> checkedSubTags = (form.getSubTagIds().length != 0) ? subTagService.findSubTagsByIds(form.getSubTagIds()) : new HashSet<>();
 
             Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
             Url urlToSave = duplicateUrl.isPresent() ? duplicateUrl.get() : new Url(form.getAddress());
@@ -73,6 +75,11 @@ public class UrlController {
             if (!checkedTags.equals(urlToSave.getTags())) {
                 urlToSave.setTags(checkedTags);
             }
+
+            if (!checkedSubTags.equals(urlToSave.getSubTags())) {
+                urlToSave.setSubTags(checkedSubTags);
+            }
+
             urlService.create(urlToSave);
 
         } catch (Exception e) {

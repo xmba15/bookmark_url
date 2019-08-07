@@ -26,7 +26,7 @@ public class TagService {
     }
 
     public Set<Tag> findTagsByIds(Integer[] ids) {
-        return tagRepository.findTagByIds(ids);
+        return tagRepository.findTagsByIds(ids);
     }
 
     public Optional<Tag> findOneByTitle(String title) {

@@ -50,18 +50,30 @@
 
             <div class="row mt-3 mb-3">
               <div class="col-3">
-                <div class="form-check" th:each="tag : ${tags}">
-                  <input type="checkbox" class="form-check-input" name="tagIds" th:value="${tag.id}" th:text="${tag.title}" th:field="*{tagIds}"></input>
-                </div>
-              </div>
-              <div class="col">
                 <a th:href="@{/tags}">
                   <button type="button"  class="btn btn-outline-info">Tag Info</button>
                 </a>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="btnSubmit">Create</button>
+            <div class="form-check" id="customerServices" th:each="tag : ${tags}">
+              <div class="row mt-3 ml-3 mr-3">
+                <input type="checkbox" class="form-check-input" th:value="${tag.id}" th:field="*{tagIds}"><div class="badge badge-pill badge-secondary" th:text="${tag.title}" /></input>
+              </div>
+
+              <div class="row ml-4 mr-4">
+                <div class="col-4" th:each="subTag : ${tag.subTags}">
+                  <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}"></input>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3 mb-3">
+              <div class="col-3">
+                <button type="submit" class="btn btn-primary" id="btnSubmit">Create</button>
+              </div>
+            </div>
+
           </fieldset>
         </form>
       </div>
@@ -71,33 +83,31 @@
       <hr>
 
       <div class="row mt-3">
-          <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
-            <div class="d-block bg-light">
+        <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
+          <div class="d-block bg-light">
+            <div class="overflow-hidden">
+              <a th:href="${url.address}">
+                <button type="button" class="btn btn-outline-primary btn-block" th:text="${url.address}"></button>
+              </a>
+            </div>
 
-              <div class="overflow-hidden">
-                <a th:href="${url.address}">
-                  <button type="button" class="btn btn-outline-primary btn-block" th:text="${url.address}"></button>
-                </a>
-              </div>
+            <div class="small" style="width:100%; overflow: hidden" th:text="${url.description}">
+            </div>
 
-              <div class="small" style="width:100%; overflow: hidden" th:text="${url.description}">
-              </div>
+            <div class="col-auto badge badge-pill badge-secondary" th:each="tag : ${url.tags}" th:text="${tag.title}">
+            </div>
 
-              <div class="col-auto badge badge-pill badge-secondary" th:each="tag : ${url.tags}" th:text="${tag.title}">
-              </div>
-
+            <div class="row">
               <div class="col">
                 <form th:action="@{/urls/delete/{urlId}(urlId=${url.id})}" th:method="delete">
                   <input class="btn btn-danger btn-sm" type="submit" value="delete" />
                 </form>
               </div>
-
             </div>
-            <br />
           </div>
+          <br />
         </div>
       </div>
-
     </div>
 
   </body>

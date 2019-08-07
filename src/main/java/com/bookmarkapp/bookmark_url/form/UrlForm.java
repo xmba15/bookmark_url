@@ -16,4 +16,6 @@ public class UrlForm {
     private String description;
 
     private Integer[] tagIds;
+
+    private Integer[] subTagIds;
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Transactional
 @Service
@@ -21,6 +22,10 @@ public class SubTagService {
 
     public Optional<SubTag> findOne(Integer id) {
         return subTagRepository.findById(id);
+    }
+
+    public Set<SubTag> findSubTagsByIds(Integer[] ids) {
+        return subTagRepository.findSubTagsByIds(ids);
     }
 
     public SubTag save(SubTag subTag) {

@@ -42,5 +42,5 @@ public class Tag {
         name = "tag_subtag",
         joinColumns = @JoinColumn(name = "tag_id"),
         inverseJoinColumns = @JoinColumn(name = "subtag_id"))
-    private Set<SubTag> subtags;
+    private Set<SubTag> subTags;
 }
