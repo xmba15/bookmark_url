@@ -65,7 +65,7 @@
 
               <div class="row ml-4 mr-4" th:classappend="'subtagrow-tagIds' + ${tag.id}" style="display:none">
                 <div class="col-4" th:each="subTag : ${tag.subTags}" >
-                  <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}" th:classappend="'tagIds' + ${tag.id} + '-subTag'"</input>
+                  <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}" th:attr="parent-tag='tagIds' + ${tag.id}"></input>
                 </div>
               </div>
             </div>
