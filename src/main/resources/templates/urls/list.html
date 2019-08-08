@@ -6,6 +6,8 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
     <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
     <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
+    <script type="text/javascript" src="/js/urls.list.js"></script>
+    <script type="text/javascript" src="/js/utility.js"></script>
   </head>
   <body>
 
@@ -56,14 +58,14 @@
               </div>
             </div>
 
-            <div class="form-check" id="customerServices" th:each="tag : ${tags}">
+            <div class="form-check" id="TagSubTags" th:each="tag : ${tags}">
               <div class="row mt-3 ml-3 mr-3">
-                <input type="checkbox" class="form-check-input" th:value="${tag.id}" th:field="*{tagIds}"><div class="badge badge-pill badge-secondary" th:text="${tag.title}" /></input>
+                <input type="checkbox" class="form-check-input tag-parent" th:value="${tag.id}" th:field="*{tagIds}"><div class="badge badge-pill badge-secondary" th:text="${tag.title}" /></input>
               </div>
 
-              <div class="row ml-4 mr-4">
-                <div class="col-4" th:each="subTag : ${tag.subTags}">
-                  <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}"></input>
+              <div class="row ml-4 mr-4" th:classappend="'subtagrow-tagIds' + ${tag.id}" style="display:none">
+                <div class="col-4" th:each="subTag : ${tag.subTags}" >
+                  <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}" th:classappend="'tagIds' + ${tag.id} + '-subTag'"</input>
                 </div>
               </div>
             </div>
@@ -100,7 +102,7 @@
             <div class="row">
               <div class="col">
                 <form th:action="@{/urls/delete/{urlId}(urlId=${url.id})}" th:method="delete">
-                  <input class="btn btn-danger btn-sm" type="submit" value="delete" />
+                  <input class="btn btn-danger btn-sm" type="submit" onclick="return ConfirmDelete();" value="delete" />
                 </form>
               </div>
             </div>

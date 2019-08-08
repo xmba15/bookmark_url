@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
     <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
     <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
+    <script type="text/javascript" src="/js/utility.js"></script>
   </head>
 
   <body>
@@ -62,7 +63,7 @@
       <div class="row mt-3 mb-3">
         <div class="col" th:each="tag : ${tags}">
           <form th:action="@{/tags/delete/{tagId}(tagId=${tag.id})}" th:method="delete">
-            <input class="btn btn-danger btn-sm" type="submit" value="delete" />
+            <input class="btn btn-danger btn-sm" type="submit" onclick="return ConfirmDelete()" value="delete" />
           </form>
         </div>
       </div>
