@@ -1,21 +1,20 @@
 package com.bookmarkapp.bookmark_url.web;
 
+import com.bookmarkapp.bookmark_url.domain.SubTag;
 import com.bookmarkapp.bookmark_url.domain.Tag;
 import com.bookmarkapp.bookmark_url.domain.Url;
+import com.bookmarkapp.bookmark_url.domain.UrlTag;
 import com.bookmarkapp.bookmark_url.form.UrlForm;
-import com.bookmarkapp.bookmark_url.service.TagService;
-import com.bookmarkapp.bookmark_url.service.UrlService;
+import com.bookmarkapp.bookmark_url.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,6 +28,15 @@ public class UrlController {
     @Autowired
     TagService tagService;
 
+    @Autowired
+    SubTagService subTagService;
+
+    @Autowired
+    UrlTagService urlTagService;
+
+    @Autowired
+    UrlSubTagService urlSubTagService;
+
     @ModelAttribute
     UrlForm setUpForm() {
         return new UrlForm();
@@ -36,7 +44,7 @@ public class UrlController {
 
     final static String OTHER_TAG = "miscellaneous";
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     String list(Model model) {
         List<Url> urls = urlService.findAll();
         model.addAttribute("urls", urls);
@@ -47,36 +55,51 @@ public class UrlController {
         return "urls/list";
     }
 
-    @PostMapping(path = "create")
+    @RequestMapping(path = "create", method = RequestMethod.POST)
     String create(@Validated UrlForm form, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return list(model);
         }
 
-        Set<Tag> checkedTags = tagService.findTagsByIds(form.getTagIds());
-        if (checkedTags.isEmpty()) {
-            Tag tag = tagService.findOneByTitle(OTHER_TAG).get();
-            checkedTags.add(tag);
+        try {
+            Set<Tag> checkedTags = (form.getTagIds().length != 0) ? tagService.findTagsByIds(form.getTagIds()) : new HashSet<>();
+            Set<SubTag> checkedSubTags = (form.getSubTagIds().length != 0) ? subTagService.findSubTagsByIds(form.getSubTagIds()) : new HashSet<>();
+
+            Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
+            Url urlToSave = duplicateUrl.isPresent() ? duplicateUrl.get() : new Url(form.getAddress());
+
+            if (form.getDescription() != null) {
+                urlToSave.setDescription(form.getDescription());
+            }
+
+            if (!checkedTags.equals(urlToSave.getTags())) {
+                urlToSave.setTags(checkedTags);
+            }
+
+            if (!checkedSubTags.equals(urlToSave.getSubTags())) {
+                urlToSave.setSubTags(checkedSubTags);
+            }
+
+            urlService.create(urlToSave);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "redirect:/urls";
         }
 
-        Optional<Url> duplicateUrl = urlService.findOneByAddress(form.getAddress());
+        return "redirect:/urls";
+    }
 
-        Url urlToSave;
-
-        if (duplicateUrl.isPresent()) {
-            urlToSave = duplicateUrl.get();
-        } else {
-            urlToSave = new Url();
-            urlToSave.setAddress(form.getAddress());
+    @RequestMapping(path = "/delete/{urlId}", method = RequestMethod.DELETE)
+    String deleteUrl(@PathVariable Long urlId) {
+        Optional<Url> url = urlService.findOne(urlId);
+        if (!url.isPresent()) {
+            return "redirect:/urls";
         }
 
-        if (!form.getDescription().isEmpty()) {
-            urlToSave.setDescription(form.getDescription());
-        }
-
-        urlToSave.setTags(checkedTags);
-
-        urlService.create(urlToSave);
+        urlTagService.deleteAllByUrlId(urlId);
+        urlSubTagService.deleteAllByUrlId(urlId);
+        urlService.delete(urlId);
 
         return "redirect:/urls";
     }

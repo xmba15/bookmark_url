@@ -26,11 +26,22 @@ public class TagService {
     }
 
     public Set<Tag> findTagsByIds(Integer[] ids) {
-        return tagRepository.findTagByIds(ids);
+        return tagRepository.findTagsByIds(ids);
     }
 
     public Optional<Tag> findOneByTitle(String title) {
         return tagRepository.findOneByTitle(title);
     }
 
+    public Tag save(Tag tag) {
+        return tagRepository.save(tag);
+    }
+
+    public void delete(Tag tag) {
+        tagRepository.delete(tag);
+    }
+
+    public void delete(Integer id) {
+        tagRepository.deleteById(id);
+    }
 }

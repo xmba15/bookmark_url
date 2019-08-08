@@ -17,7 +17,7 @@ public class UrlService {
     UrlRepository urlRepository;
 
     public List<Url> findAll() {
-        return urlRepository.findAllOrderById();
+        return urlRepository.findAllByOrderByUpdatedOnDesc();
     }
 
     public Optional<Url> findOne(Long id) {
@@ -30,5 +30,9 @@ public class UrlService {
 
     public Optional<Url> findOneByAddress(String address) {
         return urlRepository.findOneByAddress(address);
+    }
+
+    public void delete(Long urlId) {
+        urlRepository.deleteById(urlId);
     }
 }

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>List of Tags</title>
+    <title>SubTag Info</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/{version}/css/bootstrap.min.css(version=${@webjarsConfig.bootstrap})}" />
     <script th:src="@{/webjars/jquery/{version}/jquery.min.js(version=${@webjarsConfig.jquery})}"></script>
     <script th:src="@{/webjars/bootstrap/{version}/js/bootstrap.min.js(version=${@webjarsConfig.bootstrap})}"></script>
@@ -12,11 +12,10 @@
   <body>
     <div class="container">
       <div class="col-sm-12">
-
-        <form method="post" th:action="@{/tags/create}" th:object="${tagForm}" id="tagForm">
+        <form method="post" th:action="@{/tags/__${targetTag.id}__/subtags/create}" th:object="${subTagForm}" id="subTagForm">
           <fieldset class="border p-2">
             <legend class="w-auto text-uppercase">
-              Add New Tag
+              Add New SubTag
             </legend>
 
             <div class="form-row">
@@ -48,39 +47,35 @@
             <button type="submit" class="btn btn-primary" id="btnSubmit">Create</button>
           </fieldset>
         </form>
-
       </div>
-
     </div>
 
     <div class="container">
+
       <div class="row mt-3 mb-3">
-        <div class="col" th:each="tag : ${tags}">
-          <a th:href="@{'/tags/' + ${tag.id}}" class="badge badge-info" th:text="${tag.title}"></a>
+        <div class="col-3">
+          <span class="badge badge-pill badge-info" th:text="${targetTag.title}"></span>
         </div>
       </div>
 
-      <div class="row mt-3 mb-3">
-        <div class="col" th:each="tag : ${tags}">
-          <form th:action="@{/tags/delete/{tagId}(tagId=${tag.id})}" th:method="delete">
+      <div class="row mb-3" th:each="subTag : ${targetSubtags}">
+        <div class="col-3" th:text="${subTag.title}">
+        </div>
+
+        <div class="col text-left">
+          <form th:action="@{/subtags/delete/{subTagId}(subTagId=${subTag.id})}" th:method="delete">
             <input class="btn btn-danger btn-sm" type="submit" onclick="return ConfirmDelete()" value="delete" />
           </form>
         </div>
       </div>
 
-      <div class="row mt-3 mb-3">
-        <div class="col" th:each="tag : ${tags}">
-          <div class="row" th:each="subTag : ${tag.subTags}" th:text="${subTag.title}">
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="container">
       <hr>
 
-      <a th:href="@{/urls}">
-        <button type="button"  class="btn btn-outline-info">Url Info</button>
+      <a th:href="@{/tags}">
+        <button type="button"  class="btn btn-outline-info">Tag Info</button>
       </a>
     </div>
 

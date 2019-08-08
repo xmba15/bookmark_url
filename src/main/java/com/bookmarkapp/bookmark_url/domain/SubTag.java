@@ -7,18 +7,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "tags")
+@Table(name = "subtags")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Setter
 @Getter
-public class Tag {
+public class SubTag {
     @Id
     @GeneratedValue
     private Integer id;
@@ -36,11 +35,4 @@ public class Tag {
     @LastModifiedDate
     @Column(name = "updated_on")
     private LocalDateTime updatedOn;
-
-    @OneToMany
-    @JoinTable(
-        name = "tag_subtag",
-        joinColumns = @JoinColumn(name = "tag_id"),
-        inverseJoinColumns = @JoinColumn(name = "subtag_id"))
-    private Set<SubTag> subTags;
 }
