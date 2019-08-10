@@ -1,5 +1,9 @@
 # Spring-Boot Based Web Application to Store Web URL for Browsing Later #
 
+<p align="center">
+    <img src="./docs/images/snap_shot.png", width="1000">
+</p>
+
 ## Dependencies ##
 - Java: 8
 - SpringBoot: tested with 2.1.6.RELEASE (possibly able to used with other versions)
