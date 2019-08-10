@@ -1,0 +1,31 @@
+language:
+  - java
+
+services:
+  - mysql
+
+dist: xenial
+
+jdk:
+ - openjdk8
+
+sudo: required
+
+branches:
+  only:
+    - master
+
+before_install:
+  - readonly PARENT_DIR=$(pwd)
+
+before_script:
+  - mysql -uroot -e "create database url_bookmarks;"
+  - mysql -uroot -e "create user 'meuser'@'%' identified by 'SqlPassword1232:';"
+  - mysql -uroot -e "grant all on url_bookmarks.* to 'meuser'@'%';"
+
+script:
+  - cd ${PARENT_DIR}
+  - ./mvnw dependency:tree
+  - ./mvnw package clean
+  - ./mvnw package
+  - mysql -uroot -e "select * from url_bookmarks.tags;"

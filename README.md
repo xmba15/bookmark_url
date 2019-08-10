@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/xmba15/bookmark_url.svg?branch=master)](https://travis-ci.org/xmba15/bookmark_url/builds)
 # Spring-Boot Based Web Application to Store Web URL for Browsing Later #
 
 <p align="center">
@@ -7,7 +8,7 @@
 ## Dependencies ##
 - Java: 8
 - SpringBoot: tested with 2.1.6.RELEASE (possibly able to used with other versions)
-- Database: Mysql
+- Database: Mysql version >= 5.7
 - Java build automation tool: Maven
 
 **Note: check pom.xml for more details about necessary dependencies**
