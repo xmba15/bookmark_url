@@ -47,12 +47,12 @@
       <div id="TagSubTags">
         <div class="form-check" th:each="tag : ${tags}">
           <div class="row mt-3 ml-3 mr-3">
-            <input type="checkbox" class="form-check-input tag-parent" th:value="${tag.id}" th:field="*{tagIds}"><div class="badge badge-pill badge-secondary" th:text="${tag.title}" /></input>
+            <input type="checkbox" class="form-check-input" th:attr="tag-id=${tag.id}" th:value="${tag.id}" th:field="*{tagIds}"><div class="badge badge-pill badge-secondary" th:text="${tag.title}" /></input>
           </div>
 
-          <div class="row ml-4 mr-4" th:classappend="'subtagrow-tagIds' + ${tag.id}" style="display:none">
+          <div class="row ml-4 mr-4" th:classappend="'subtagrow-' + ${tag.id}" style="display:none">
             <div class="col-4" th:each="subTag : ${tag.subTags}" >
-              <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}" th:attr="parent-tag='tagIds' + ${tag.id}"></input>
+              <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}" th:attr="parent-tag-id=${tag.id}"></input>
             </div>
           </div>
         </div>
