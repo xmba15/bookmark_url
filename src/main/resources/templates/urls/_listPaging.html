@@ -1,0 +1,27 @@
+<div class="row mt-3" >
+  <div class="col-xs-12">
+    <div class="col-xs-4 text-left">
+      <th:block th:if="!${pageInfo.first}">
+        <th:block th:if="${pageInfo.number != 0}">
+          <a th:href="@{/urls(page=0)}">First</a>&nbsp;|
+        </th:block>
+        <th:block th:if="!${pageInfo.first}">
+          <a th:href="@{/urls(page=${pageInfo.number-1})}">Previous</a>
+        </th:block>
+      </th:block>
+    </div>
+
+    <div class="col-xs-4 text-center">
+      <th:block th:text="${pageInfo.number+1}"></th:block>&nbsp;/&nbsp;<th:block th:text="${pageInfo.totalPages}"></th:block>
+    </div>
+
+    <div class="col-xs-4 text-left">
+      <th:block th:if="!${pageInfo.last}">
+        <a th:href="@{/urls(page=${pageInfo.number+1})}">Next</a>
+        <th:block th:if="${pageInfo.number != pageInfo.totalPages}">
+          |&nbsp;<a th:href="@{/urls(page=${pageInfo.totalPages-1})}">Last</a>
+        </th:block>
+      </th:block>
+    </div>
+  </div>
+</div>

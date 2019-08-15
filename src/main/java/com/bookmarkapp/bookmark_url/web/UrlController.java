@@ -8,6 +8,9 @@ import com.bookmarkapp.bookmark_url.form.UrlForm;
 import com.bookmarkapp.bookmark_url.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,9 +48,11 @@ public class UrlController {
     final static String OTHER_TAG = "miscellaneous";
 
     @RequestMapping(method = RequestMethod.GET)
-    String list(Model model) {
-        List<Url> urls = urlService.findAll();
-        model.addAttribute("urls", urls);
+    String list(Model model, Pageable pageable) {
+        Page<Url> urls = urlService.findAll(pageable);
+        model.addAttribute("urls", urls.getContent());
+        model.addAttribute("numUrls", urls.getTotalElements());
+        model.addAttribute("pageInfo", urls);
 
         List<Tag> tags = tagService.findAll();
         model.addAttribute("tags", tags);
@@ -56,9 +61,9 @@ public class UrlController {
     }
 
     @RequestMapping(path = "create", method = RequestMethod.POST)
-    String create(@Validated UrlForm form, BindingResult result, Model model) {
+    String create(@Validated UrlForm form, BindingResult result, Model model, Pageable pageable) {
         if (result.hasErrors()) {
-            return list(model);
+            return list(model, pageable);
         }
 
         try {
