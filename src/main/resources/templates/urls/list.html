@@ -10,82 +10,13 @@
     <script type="text/javascript" src="/js/utility.js"></script>
   </head>
   <body>
-
     <div class="container">
-      <div class="col-sm-12">
-
-        <form method="post" th:action="@{/urls/create}" th:object="${urlForm}" id="urlForm">
-          <fieldset class="border p-2">
-            <legend class="w-auto text-uppercase">
-              Add New Url
-            </legend>
-
-            <div class="form-row">
-              <div class="col-sm-10 mb-3">
-                <label class="form-control-label" for="address">
-                  address
-                </label>
-
-                <input type="text" class="form-control" id="address" th:classappend="${not #lists.isEmpty(#fields.errors('address'))} ? is-invalid" name="address" th:field="*{address}" />
-                <div class="invalid-feedback">
-                  <p th:each="error: ${#fields.errors('address')}" th:text="${error}"></p>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="col-sm-10 mb-3">
-                <label class="form-control-label" for="description">
-                  description
-                </label>
-
-                <input type="text" class="form-control" id="description" th:classappend="${not #lists.isEmpty(#fields.errors('description'))} ? is-invalid" name="description" th:field="*{description}" />
-                <div class="invalid-feedback">
-                  <p th:each="error: ${#fields.errors('description')}" th:text="${error}"></p>
-                </div>
-              </div>
-            </div>
-
-            <div class="small badge badge-pill badge-info">
-              Choose tags:
-            </div>
-
-            <div class="row mt-3 mb-3">
-              <div class="col-3">
-                <a th:href="@{/tags}">
-                  <button type="button"  class="btn btn-outline-info">Tag Info</button>
-                </a>
-              </div>
-            </div>
-
-            <div id="TagSubTags">
-              <div class="form-check" th:each="tag : ${tags}">
-                <div class="row mt-3 ml-3 mr-3">
-                  <input type="checkbox" class="form-check-input tag-parent" th:value="${tag.id}" th:field="*{tagIds}"><div class="badge badge-pill badge-secondary" th:text="${tag.title}" /></input>
-                </div>
-
-                <div class="row ml-4 mr-4" th:classappend="'subtagrow-tagIds' + ${tag.id}" style="display:none">
-                  <div class="col-4" th:each="subTag : ${tag.subTags}" >
-                    <input type="checkbox" class="form-check-input" th:value="${subTag.id}" th:text="${subTag.title}" th:field="*{subTagIds}" th:attr="parent-tag='tagIds' + ${tag.id}"></input>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row mt-3 mb-3">
-                <div class="col-3">
-                  <button type="submit" class="btn btn-primary" id="btnSubmit">Create</button>
-                </div>
-              </div>
-            </div>
-
-          </fieldset>
-        </form>
-      </div>
+      <th:block th:replace="urls/_listCreate"></th:block>
     </div>
 
     <div class="container">
       <hr>
-
+      <th:block th:replace="urls/_listPaging"></th:block>
       <div class="row mt-3">
         <div class="col-md-4 col-sm-6" th:each="url : ${urls}">
           <div class="d-block bg-light">
@@ -108,11 +39,12 @@
                 </form>
               </div>
             </div>
+
           </div>
           <br />
         </div>
       </div>
+      <th:block th:replace="urls/_listPaging"></th:block>
     </div>
-
   </body>
 </html>
